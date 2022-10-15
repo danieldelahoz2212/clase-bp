@@ -14,7 +14,7 @@ const Formulario = () => {
     const [listaPersona, setListaPersona] = useState([]);
     const getImage = async () => {
         try {
-            const res = await fetch('https://picsum.photos/100');
+            const res = await fetch('https://picsum.photos/200');
             const data = res.url;
             setFoto(data);
         } catch (error) {
@@ -31,7 +31,8 @@ const Formulario = () => {
                 numeroTelefono: telefono,
                 correoElectronico: correo,
                 direccionVivienda: direccion,
-                textoDescripcion: descripcion
+                textoDescripcion: descripcion,
+                foto
             })
             setListaPersona([
                 ...listaPersona,
@@ -42,6 +43,7 @@ const Formulario = () => {
                     correoElectronico: correo,
                     direccionVivienda: direccion,
                     textoDescripcion: descripcion,
+                    foto,
                     id: data.id
                 }
             ])
@@ -51,6 +53,8 @@ const Formulario = () => {
             setCorreo('')
             setDireccion('')
             setDescripcion('')
+            setFoto('')
+            getImage()
         } catch (error) {
             console.log(error)
         }
@@ -138,6 +142,9 @@ const editarInf = item => {
                         value={descripcion}
                         onChange={(e) => setDescripcion(e.target.value)}
                     />
+
+<img src={foto} alt="" className='mb-2'/>
+
                     <button className='btn btn-primary btn-block' type='submit'>Agregar</button>
                     {/* </div> */}
 
@@ -156,6 +163,7 @@ const editarInf = item => {
                                     -{item.correoElectronico}
                                     -{item.direccionVivienda}
                                     -{item.textoDescripcion}
+                                    <img src={item.foto} alt="" className='rounded-circle m-2' height={100} width={100} />
                                 </span>
                                 <button className='btn btn-danger btn-sm float-end mx-2' onClick={() => eliminar(item.id)}>Eliminar</button>
                                 <button className='btn btn-warning btn-sm float-end '>Editar</button>
