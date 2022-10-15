@@ -79,6 +79,15 @@ const Formulario = () => {
         }
     }
 
+const editarInf = item => {
+    setNombre(item.nombreParticipante)
+    setCedula(item.numeroCedula)
+    setTelefono(item.numeroTelefono)
+    setCorreo(item.correoElectronico)
+    setDireccion(item.direccionVivienda)
+    setDescripcion(item.textoDescripcion)
+}
+
     return (
         <div className='container mt-5'>
             <h1 className='text-center'>Concurso De Fotografías</h1>
