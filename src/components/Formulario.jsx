@@ -28,6 +28,41 @@ const Formulario = () => {
     const guardar = async (e) => {
         e.preventDefault()
         try {
+            
+            if (nombre.length === 0) {
+                alert('El campo nombre se encuentra vacio')
+                return
+            }
+            else if (apellido.length === 0) {
+                alert('El campo apellido se encuentra vacio')
+                return
+            }
+
+            else if (cedula.length === 0) {
+                alert('El campo cedula se encuentra vacio')
+                return
+            }
+
+            else if (telefono.length === 0) {
+                alert('El campo telefono se encuentra vacio')
+                return
+            }
+
+            else if (correo.length === 0) {
+                alert('El campo correo se encuentra vacio')
+                return
+            }
+
+            else if (direccion.length === 0) {
+                alert('El campo direccion se encuentra vacio')
+                return
+            }
+
+            else if (descripcion.length === 0) {
+                alert('El campo descripcion se encuentra vacio')
+                return
+            
+            }else{
             const data = await addDoc(collection(db, 'personas'), {
                 nombreParticipante: nombre,
                 apellidoParticipante: apellido,
@@ -60,6 +95,7 @@ const Formulario = () => {
             setDireccion('')
             setDescripcion('')
             getImage()
+        }
         } catch (error) {
             console.log(error)
         }
@@ -187,8 +223,8 @@ const Formulario = () => {
                         className='mb-2'
                         placeholder='Ingrese Nombre'
                         value={nombre}
+
                         onChange={(e) => setNombre(e.target.value)}
-                        required=""
                         disabled={loading}
                     />
 
@@ -197,7 +233,6 @@ const Formulario = () => {
                         placeholder='Ingrese Apellido'
                         value={apellido}
                         onChange={(e) => setApellido(e.target.value)}
-                        required=""
                         disabled={loading}
                     />
 
@@ -206,7 +241,6 @@ const Formulario = () => {
                         placeholder='Ingrese Cedula'
                         value={cedula}
                         onChange={(e) => setCedula(e.target.value)}
-                        required=""
                         disabled={loading}
                     />
 
@@ -215,7 +249,6 @@ const Formulario = () => {
                         placeholder='Ingrese Telefono'
                         value={telefono}
                         onChange={(e) => setTelefono(e.target.value)}
-                        required=""
                         disabled={loading}
                     />
 
@@ -233,7 +266,6 @@ const Formulario = () => {
                         placeholder='Ingrese Dirección'
                         value={direccion}
                         onChange={(e) => setDireccion(e.target.value)}
-                        required=""
                         disabled={loading}
                     />
 
@@ -242,7 +274,6 @@ const Formulario = () => {
                         placeholder='Ingrese Descripcion'
                         value={descripcion}
                         onChange={(e) => setDescripcion(e.target.value)}
-                        required=""
                         disabled={loading}
                     />
                     <img src={foto} alt="" className='mb-2' disabled={loading} />
