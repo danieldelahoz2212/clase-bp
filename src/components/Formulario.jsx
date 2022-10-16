@@ -29,37 +29,37 @@ const Formulario = () => {
         e.preventDefault()
         try {
 
-            if (nombre.length === 0) {
+            if (nombre.length === 0 || /^\s+$/.test(nombre)) {
                 alert('El campo nombre se encuentra vacio')
                 return
             }
 
-            else if (apellido.length === 0) {
+            else if (apellido.length === 0 || /^\s+$/.test(apellido)) {
                 alert('El campo apellido se encuentra vacio')
                 return
             }
 
-            else if (cedula.length === 0) {
+            else if (cedula.length === 0 || /^\s+$/.test(cedula)) {
                 alert('El campo cedula se encuentra vacio')
                 return
             }
 
-            else if (telefono.length === 0) {
+            else if (telefono.length === 0 || /^\s+$/.test(telefono)) {
                 alert('El campo telefono se encuentra vacio')
                 return
             }
 
-            else if (correo.length === 0) {
+            else if (correo.length === 0 || /^\s+$/.test(correo)) {
                 alert('El campo correo se encuentra vacio')
                 return
             }
 
-            else if (direccion.length === 0) {
+            else if (direccion.length === 0 || /^\s+$/.test(direccion)) {
                 alert('El campo direccion se encuentra vacio')
                 return
             }
 
-            else if (descripcion.length === 0) {
+            else if (descripcion.length === 0 || /^\s+$/.test(descripcion)) {
                 alert('El campo descripcion se encuentra vacio')
                 return
 
@@ -141,37 +141,37 @@ const Formulario = () => {
         e.preventDefault()
         try {
 
-            if (nombre.length === 0) {
+            if (nombre.length === 0 || /^\s+$/.test(nombre)) {
                 alert('El campo nombre se encuentra vacio')
                 return
             }
 
-            else if (apellido.length === 0) {
+            else if (apellido.length === 0 || /^\s+$/.test(apellido)) {
                 alert('El campo apellido se encuentra vacio')
                 return
             }
 
-            else if (cedula.length === 0) {
+            else if (cedula.length === 0 || /^\s+$/.test(cedula)) {
                 alert('El campo cedula se encuentra vacio')
                 return
             }
 
-            else if (telefono.length === 0) {
+            else if (telefono.length === 0 || /^\s+$/.test(telefono)) {
                 alert('El campo telefono se encuentra vacio')
                 return
             }
 
-            else if (correo.length === 0) {
+            else if (correo.length === 0 || /^\s+$/.test(correo)) {
                 alert('El campo correo se encuentra vacio')
                 return
             }
 
-            else if (direccion.length === 0) {
+            else if (direccion.length === 0 || /^\s+$/.test(direccion)) {
                 alert('El campo direccion se encuentra vacio')
                 return
             }
 
-            else if (descripcion.length === 0) {
+            else if (descripcion.length === 0 || /^\s+$/.test(descripcion)) {
                 alert('El campo descripcion se encuentra vacio')
                 return
 
@@ -232,7 +232,7 @@ const Formulario = () => {
         getImage()
     }
 
-    return (        
+    return (
         <div className='container mt-5'>
             <h1 className='text-center'>Concurso De Fotografías</h1>
             <hr />
