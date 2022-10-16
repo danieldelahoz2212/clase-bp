@@ -17,7 +17,7 @@ const Formulario = () => {
     const [id, setId] = useState('');
     const getImage = async () => {
         try {
-            const res = await fetch('https://picsum.photos/350');
+            const res = await fetch('https://picsum.photos/500');
             const data = res.url;
             setFoto(data);
         } catch (error) {
@@ -140,6 +140,41 @@ const Formulario = () => {
     const editarDocumento = async e => {
         e.preventDefault()
         try {
+            
+            if (nombre.length === 0) {
+                alert('El campo nombre se encuentra vacio')
+                return
+            }
+            else if (apellido.length === 0) {
+                alert('El campo apellido se encuentra vacio')
+                return
+            }
+
+            else if (cedula.length === 0) {
+                alert('El campo cedula se encuentra vacio')
+                return
+            }
+
+            else if (telefono.length === 0) {
+                alert('El campo telefono se encuentra vacio')
+                return
+            }
+
+            else if (correo.length === 0) {
+                alert('El campo correo se encuentra vacio')
+                return
+            }
+
+            else if (direccion.length === 0) {
+                alert('El campo direccion se encuentra vacio')
+                return
+            }
+
+            else if (descripcion.length === 0) {
+                alert('El campo descripcion se encuentra vacio')
+                return
+
+            } else {
             setLoading(true)
             const editDoc = doc(db, "personas", id);
             await updateDoc(editDoc, {
@@ -166,8 +201,8 @@ const Formulario = () => {
                     foto
                 } : item
             )
-
             setListaPersona(newArray)
+            }
             setNombre('')
             setApellido('')
             setCedula('')
@@ -179,6 +214,7 @@ const Formulario = () => {
             setFoto(getImage())
             setEditar(false)
             setTimeout(() => setLoading(false), 2000);
+
         } catch (error) {
             console.log(error)
         }
