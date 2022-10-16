@@ -4,6 +4,7 @@ import { collection, addDoc, deleteDoc, doc, onSnapshot, updateDoc } from 'fireb
 
 const Formulario = () => {
     const [nombre, setNombre] = useState('');
+    const [apellido, setApellido] = useState('');
     const [cedula, setCedula] = useState('');
     const [telefono, setTelefono] = useState('');
     const [correo, setCorreo] = useState('');
@@ -29,6 +30,7 @@ const Formulario = () => {
         try {
             const data = await addDoc(collection(db, 'personas'), {
                 nombreParticipante: nombre,
+                apellidoParticipante: apellido,
                 numeroCedula: cedula,
                 numeroTelefono: telefono,
                 correoElectronico: correo,
@@ -40,6 +42,7 @@ const Formulario = () => {
                 ...listaPersona,
                 {
                     nombreParticipante: nombre,
+                    apellidoParticipante: apellido,
                     numeroCedula: cedula,
                     numeroTelefono: telefono,
                     correoElectronico: correo,
@@ -50,13 +53,13 @@ const Formulario = () => {
                 }
             ])
             setNombre('')
+            setApellido('')
             setCedula('')
             setTelefono('')
             setCorreo('')
             setDireccion('')
             setDescripcion('')
-            setFoto('')
-            getImage()
+            setFoto(getImage())
         } catch (error) {
             console.log(error)
         }
@@ -87,6 +90,7 @@ const Formulario = () => {
 
     const editarInf = item => {
         setNombre(item.nombreParticipante)
+        setApellido(item.apellidoParticipante)
         setCedula(item.numeroCedula)
         setTelefono(item.numeroTelefono)
         setCorreo(item.correoElectronico)
@@ -104,6 +108,7 @@ const Formulario = () => {
             const editDoc = doc(db, "personas", id);
             await updateDoc(editDoc, {
                 nombreParticipante: nombre,
+                apellidoParticipante: apellido,
                 numeroCedula: cedula,
                 numeroTelefono: telefono,
                 correoElectronico: correo,
@@ -116,6 +121,7 @@ const Formulario = () => {
                 item => item.id === id ? {
                     id: id,
                     nombreParticipante: nombre,
+                    apellidoParticipante: apellido,
                     numeroCedula: cedula,
                     numeroTelefono: telefono,
                     correoElectronico: correo,
@@ -127,13 +133,14 @@ const Formulario = () => {
 
             setListaPersona(newArray)
             setNombre('')
+            setApellido('')
             setCedula('')
             setTelefono('')
             setCorreo('')
             setDireccion('')
             setDescripcion('')
             setId('')
-            setFoto('')
+            setFoto(getImage())
             setEditar(false)
             setTimeout(() => setLoading(false), 2000);
         } catch (error) {
@@ -144,6 +151,7 @@ const Formulario = () => {
     const cancelar = () => {
         setEditar(false)
         setNombre('')
+        setApellido('')
         setCedula('')
         setTelefono('')
         setCorreo('')
@@ -153,41 +161,52 @@ const Formulario = () => {
         setFoto(getImage())
     }
 
-
     return (
         <div className='container mt-5'>
             <h1 className='text-center'>Concurso De Fotografías</h1>
             <hr />
             {
-                    loading && (
-                            <div className="modal-dialog modal-dialog-centered justify-content-center">
-                                <div className="spinner-border text-dark" role="status">
-                                    <span className="visually-hidden">Loading...</span>
-                                </div>
-                            </div>
-                    )
-                }
-            <div className='col-12 justify-content-center d-flex flex-column' >
+                loading && (
+                    <div className="modal-dialog modal-dialog-centered justify-content-center">
+                        <div className="spinner-border text-dark" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                )
+            }
+            <div className='col-12 justify-content-center d-flex flex-column'>
                 <h4 className='text-center'>
                     {
                         Editar ? 'Editar Lista' : 'Agregar Participante'
                     }
                 </h4>
-                <form onSubmit={Editar ? editarDocumento : guardar} className='d-flex justify-content-center align-self-center flex-column col-4 '>
+                <form onSubmit={Editar ? editarDocumento : guardar} className='d-flex justify-content-center align-self-center flex-column col-4' method='post' action='#'>
                     {/* <div className='col'> */}
                     <input type="text"
                         className='mb-2'
                         placeholder='Ingrese Nombre'
                         value={nombre}
                         onChange={(e) => setNombre(e.target.value)}
+                        required=""
                         disabled={loading}
                     />
+
+                    <input type="text"
+                        className='mb-2'
+                        placeholder='Ingrese Apellido'
+                        value={apellido}
+                        onChange={(e) => setApellido(e.target.value)}
+                        required=""
+                        disabled={loading}
+                    />
+
 
                     <input type="number"
                         className='mb-2'
                         placeholder='Ingrese Cedula'
                         value={cedula}
                         onChange={(e) => setCedula(e.target.value)}
+                        required=""
                         disabled={loading}
                     />
 
@@ -196,6 +215,7 @@ const Formulario = () => {
                         placeholder='Ingrese Telefono'
                         value={telefono}
                         onChange={(e) => setTelefono(e.target.value)}
+                        required=""
                         disabled={loading}
                     />
 
@@ -204,6 +224,7 @@ const Formulario = () => {
                         placeholder='Ingrese Correo'
                         value={correo}
                         onChange={(e) => setCorreo(e.target.value)}
+                        required=""
                         disabled={loading}
                     />
 
@@ -212,6 +233,7 @@ const Formulario = () => {
                         placeholder='Ingrese Dirección'
                         value={direccion}
                         onChange={(e) => setDireccion(e.target.value)}
+                        required=""
                         disabled={loading}
                     />
 
@@ -220,6 +242,7 @@ const Formulario = () => {
                         placeholder='Ingrese Descripcion'
                         value={descripcion}
                         onChange={(e) => setDescripcion(e.target.value)}
+                        required=""
                         disabled={loading}
                     />
                     <img src={foto} alt="" className='mb-2' disabled={loading} />
@@ -236,7 +259,7 @@ const Formulario = () => {
                     {/* </div> */}
 
                 </form>
-                
+
             </div>
             <hr className='my-4' />
             <div>
@@ -244,7 +267,8 @@ const Formulario = () => {
                 <table className="table table-bordered">
                     <thead>
                         <tr>
-                            <th scope='col' className='text-center'>Nombre Completo</th>
+                            <th scope='col' className='text-center'>Nombre</th>
+                            <th scope='col' className='text-center'>Apellido</th>
                             <th scope='col' className='text-center'>Cedula</th>
                             <th scope='col' className='text-center'>Telefono</th>
                             <th scope='col' className='text-center'>Correo</th>
@@ -259,6 +283,7 @@ const Formulario = () => {
                             listaPersona.map(item => (
                                 <tr key={item.id}>
                                     <td>{item.nombreParticipante}</td>
+                                    <td>{item.apellidoParticipante}</td>
                                     <td>{item.numeroCedula}</td>
                                     <td>{item.numeroTelefono}</td>
                                     <td>{item.correoElectronico}</td>
