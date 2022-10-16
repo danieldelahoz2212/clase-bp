@@ -33,6 +33,7 @@ const Formulario = () => {
                 alert('El campo nombre se encuentra vacio')
                 return
             }
+
             else if (apellido.length === 0) {
                 alert('El campo apellido se encuentra vacio')
                 return
@@ -103,7 +104,6 @@ const Formulario = () => {
 
     useEffect(() => {
         getImage();
-
         const traerDatos = async () => {
             try {
                 await onSnapshot(collection(db, 'personas'), (query) => {
@@ -140,11 +140,12 @@ const Formulario = () => {
     const editarDocumento = async e => {
         e.preventDefault()
         try {
-            
+
             if (nombre.length === 0) {
                 alert('El campo nombre se encuentra vacio')
                 return
             }
+
             else if (apellido.length === 0) {
                 alert('El campo apellido se encuentra vacio')
                 return
@@ -175,22 +176,9 @@ const Formulario = () => {
                 return
 
             } else {
-            setLoading(true)
-            const editDoc = doc(db, "personas", id);
-            await updateDoc(editDoc, {
-                nombreParticipante: nombre,
-                apellidoParticipante: apellido,
-                numeroCedula: cedula,
-                numeroTelefono: telefono,
-                correoElectronico: correo,
-                direccionVivienda: direccion,
-                textoDescripcion: descripcion,
-                foto
-            })
-
-            const newArray = listaPersona.map(
-                item => item.id === id ? {
-                    id: id,
+                setLoading(true)
+                const editDoc = doc(db, "personas", id);
+                await updateDoc(editDoc, {
                     nombreParticipante: nombre,
                     apellidoParticipante: apellido,
                     numeroCedula: cedula,
@@ -199,22 +187,33 @@ const Formulario = () => {
                     direccionVivienda: direccion,
                     textoDescripcion: descripcion,
                     foto
-                } : item
-            )
-            setListaPersona(newArray)
+                })
+                const newArray = listaPersona.map(
+                    item => item.id === id ? {
+                        id: id,
+                        nombreParticipante: nombre,
+                        apellidoParticipante: apellido,
+                        numeroCedula: cedula,
+                        numeroTelefono: telefono,
+                        correoElectronico: correo,
+                        direccionVivienda: direccion,
+                        textoDescripcion: descripcion,
+                        foto
+                    } : item
+                )
+                setListaPersona(newArray)
+                setNombre('')
+                setApellido('')
+                setCedula('')
+                setTelefono('')
+                setCorreo('')
+                setDireccion('')
+                setDescripcion('')
+                setId('')
+                getImage()
+                setEditar(false)
+                setTimeout(() => setLoading(false), 2000);
             }
-            setNombre('')
-            setApellido('')
-            setCedula('')
-            setTelefono('')
-            setCorreo('')
-            setDireccion('')
-            setDescripcion('')
-            setId('')
-            setFoto(getImage())
-            setEditar(false)
-            setTimeout(() => setLoading(false), 2000);
-
         } catch (error) {
             console.log(error)
         }
@@ -233,7 +232,7 @@ const Formulario = () => {
         getImage()
     }
 
-    return (
+    return (        
         <div className='container mt-5'>
             <h1 className='text-center'>Concurso De Fotografías</h1>
             <hr />
