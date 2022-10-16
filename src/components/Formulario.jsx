@@ -90,6 +90,8 @@ const Formulario = () => {
         setCorreo(item.correoElectronico)
         setDireccion(item.direccionVivienda)
         setDescripcion(item.textoDescripcion)
+        setId(item.id)
+        setEditar(true)
     }
 
     return (
@@ -145,16 +147,18 @@ const Formulario = () => {
                         value={descripcion}
                         onChange={(e) => setDescripcion(e.target.value)}
                     />
-
-                    Editar ? (
-                    <>
-                        <button className='btn btn-warning btn-sm float-end  mb-2'>Editar</button>
-                        <button className='btn btn-dark btn-sm float-end '>Cancelar</button>
-                    </>
-                    ):
-                    <img src={foto} alt="" className='mb-2' />
-                    <button className='btn btn-primary btn-block' type='submit'>Agregar</button>
-
+                    {
+                        Editar ? (
+                            <>
+                                <button className='btn btn-warning btn-sm float-end  mb-2'>Editar</button>
+                                <button className='btn btn-dark btn-sm float-end '>Cancelar</button>
+                            </>
+                        ) :
+                            <>
+                                <img src={foto} alt="" className='mb-2' />
+                                <button className='btn btn-primary btn-block' type='submit'>Agregar</button>
+                            </>
+                    }
                     {/* </div> */}
 
                 </form>
