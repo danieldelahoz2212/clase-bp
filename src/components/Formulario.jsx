@@ -11,9 +11,10 @@ const Formulario = () => {
     const [foto, setFoto] = useState('');
     const [descripcion, setDescripcion] = useState('');
     const [listaPersona, setListaPersona] = useState([]);
+    const [Editar, setEditar] = useState(false);
     const getImage = async () => {
         try {
-            const res = await fetch('https://picsum.photos/300');
+            const res = await fetch('https://picsum.photos/350');
             const data = res.url;
             setFoto(data);
         } catch (error) {
@@ -96,7 +97,11 @@ const Formulario = () => {
             <h1 className='text-center'>Concurso De Fotografías</h1>
             <hr />
             <div className='col-12 justify-content-center d-flex flex-column' >
-                <h4 className='text-center'>Agregar Participante</h4>
+                <h4 className='text-center'>
+                    {
+                        Editar ? 'Editar Lista' : 'Agregar Participante'
+                    }
+                </h4>
                 <form onSubmit={guardar} className='d-flex justify-content-center align-self-center flex-column col-4 '>
                     {/* <div className='col'> */}
                     <input type="text"
@@ -104,7 +109,6 @@ const Formulario = () => {
                         placeholder='Ingrese Nombre'
                         value={nombre}
                         onChange={(e) => setNombre(e.target.value)}
-
                     />
 
                     <input type="number"
@@ -142,9 +146,15 @@ const Formulario = () => {
                         onChange={(e) => setDescripcion(e.target.value)}
                     />
 
+                    Editar ? (
+                    <>
+                        <button className='btn btn-warning btn-sm float-end  mb-2'>Editar</button>
+                        <button className='btn btn-dark btn-sm float-end '>Cancelar</button>
+                    </>
+                    ):
                     <img src={foto} alt="" className='mb-2' />
-
                     <button className='btn btn-primary btn-block' type='submit'>Agregar</button>
+
                     {/* </div> */}
 
                 </form>
@@ -177,7 +187,7 @@ const Formulario = () => {
                                     <td> <img src={item.foto} alt="" className='rounded-circle m-2' height={100} width={100} /></td>
                                     <td className='col d-flex flex-column' >
                                         <button className='btn btn-danger btn-sm float-end mb-2' onClick={() => eliminar(item.id)}>Eliminar</button>
-                                        <button className='btn btn-warning btn-sm float-end '>Editar</button>
+                                        <button className='btn btn-warning btn-sm float-end  mb-2' onClick={() => editarInf(item.id)}>Editar</button>
                                     </td>
                                 </tr>
 
