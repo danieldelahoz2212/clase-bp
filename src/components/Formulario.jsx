@@ -150,6 +150,7 @@ const Formulario = () => {
         setDireccion('')
         setDescripcion('')
         setId('')
+        setFoto(getImage())
     }
 
 
@@ -221,7 +222,7 @@ const Formulario = () => {
                         onChange={(e) => setDescripcion(e.target.value)}
                         disabled={loading}
                     />
-                    <img src={foto} alt="" className='mb-2'  disabled={loading}/>
+                    <img src={foto} alt="" className='mb-2' disabled={loading} />
                     {
                         Editar ? (
                             <>
