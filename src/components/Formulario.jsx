@@ -12,6 +12,7 @@ const Formulario = () => {
     const [descripcion, setDescripcion] = useState('');
     const [listaPersona, setListaPersona] = useState([]);
     const [Editar, setEditar] = useState(false);
+    const [id, setId] = useState('');
     const getImage = async () => {
         try {
             const res = await fetch('https://picsum.photos/350');
@@ -94,6 +95,18 @@ const Formulario = () => {
         setEditar(true)
     }
 
+    const cancelar = () => {
+        setEditar(false)
+        setNombre('')
+        setCedula('')
+        setTelefono('')
+        setCorreo('')
+        setDireccion('')
+        setDescripcion('')
+        setId('')
+    }
+
+
     return (
         <div className='container mt-5'>
             <h1 className='text-center'>Concurso De Fotografías</h1>
@@ -169,13 +182,14 @@ const Formulario = () => {
                 <table className="table table-bordered">
                     <thead>
                         <tr>
-                            <th scope='col'>Nombre Completo</th>
-                            <th scope='col'>Cedula</th>
-                            <th scope='col'>Telefono</th>
-                            <th scope='col'>Correo</th>
-                            <th scope='col'>Dirección</th>
-                            <th scope='col'>Descripcion</th>
-                            <th scope='col'>Imagen</th>
+                            <th scope='col' className='text-center'>Nombre Completo</th>
+                            <th scope='col' className='text-center'>Cedula</th>
+                            <th scope='col' className='text-center'>Telefono</th>
+                            <th scope='col' className='text-center'>Correo</th>
+                            <th scope='col' className='text-center'>Dirección</th>
+                            <th scope='col' className='text-center'>Descripcion</th>
+                            <th scope='col' className='text-center'>Imagen</th>
+                            <th scope='col' className='text-center'>Opciones</th>
                         </tr>
                     </thead>
                     <tbody>
