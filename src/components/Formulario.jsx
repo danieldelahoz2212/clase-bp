@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { db } from '../firebase';
-import { collection, addDoc, deleteDoc, doc, onSnapshot } from 'firebase/firestore';
+import { collection, addDoc, deleteDoc, doc, onSnapshot, updateDoc } from 'firebase/firestore';
 
 const Formulario = () => {
     const [nombre, setNombre] = useState('');
@@ -12,6 +12,7 @@ const Formulario = () => {
     const [descripcion, setDescripcion] = useState('');
     const [listaPersona, setListaPersona] = useState([]);
     const [Editar, setEditar] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [id, setId] = useState('');
     const getImage = async () => {
         try {
@@ -92,7 +93,52 @@ const Formulario = () => {
         setDireccion(item.direccionVivienda)
         setDescripcion(item.textoDescripcion)
         setId(item.id)
+        setFoto(item.foto)
         setEditar(true)
+    }
+
+    const editarDocumento = async e => {
+        e.preventDefault()
+        try {
+            setLoading(true)
+            const editDoc = doc(db, "personas", id);
+            await updateDoc(editDoc, {
+                nombreParticipante: nombre,
+                numeroCedula: cedula,
+                numeroTelefono: telefono,
+                correoElectronico: correo,
+                direccionVivienda: direccion,
+                textoDescripcion: descripcion,
+                foto
+            })
+
+            const newArray = listaPersona.map(
+                item => item.id === id ? {
+                    id: id,
+                    nombreParticipante: nombre,
+                    numeroCedula: cedula,
+                    numeroTelefono: telefono,
+                    correoElectronico: correo,
+                    direccionVivienda: direccion,
+                    textoDescripcion: descripcion,
+                    foto
+                } : item
+            )
+
+            setListaPersona(newArray)
+            setNombre('')
+            setCedula('')
+            setTelefono('')
+            setCorreo('')
+            setDireccion('')
+            setDescripcion('')
+            setId('')
+            setFoto('')
+            setEditar(false)
+            setTimeout(() => setLoading(false), 2000);
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     const cancelar = () => {
@@ -111,19 +157,29 @@ const Formulario = () => {
         <div className='container mt-5'>
             <h1 className='text-center'>Concurso De Fotografías</h1>
             <hr />
+            {
+                    loading && (
+                            <div className="modal-dialog modal-dialog-centered justify-content-center">
+                                <div className="spinner-border text-dark" role="status">
+                                    <span className="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                    )
+                }
             <div className='col-12 justify-content-center d-flex flex-column' >
                 <h4 className='text-center'>
                     {
                         Editar ? 'Editar Lista' : 'Agregar Participante'
                     }
                 </h4>
-                <form onSubmit={guardar} className='d-flex justify-content-center align-self-center flex-column col-4 '>
+                <form onSubmit={Editar ? editarDocumento : guardar} className='d-flex justify-content-center align-self-center flex-column col-4 '>
                     {/* <div className='col'> */}
                     <input type="text"
                         className='mb-2'
                         placeholder='Ingrese Nombre'
                         value={nombre}
                         onChange={(e) => setNombre(e.target.value)}
+                        disabled={loading}
                     />
 
                     <input type="number"
@@ -131,6 +187,7 @@ const Formulario = () => {
                         placeholder='Ingrese Cedula'
                         value={cedula}
                         onChange={(e) => setCedula(e.target.value)}
+                        disabled={loading}
                     />
 
                     <input type="number"
@@ -138,6 +195,7 @@ const Formulario = () => {
                         placeholder='Ingrese Telefono'
                         value={telefono}
                         onChange={(e) => setTelefono(e.target.value)}
+                        disabled={loading}
                     />
 
                     <input type="text"
@@ -145,6 +203,7 @@ const Formulario = () => {
                         placeholder='Ingrese Correo'
                         value={correo}
                         onChange={(e) => setCorreo(e.target.value)}
+                        disabled={loading}
                     />
 
                     <input type="text"
@@ -152,6 +211,7 @@ const Formulario = () => {
                         placeholder='Ingrese Dirección'
                         value={direccion}
                         onChange={(e) => setDireccion(e.target.value)}
+                        disabled={loading}
                     />
 
                     <input type="text"
@@ -159,22 +219,23 @@ const Formulario = () => {
                         placeholder='Ingrese Descripcion'
                         value={descripcion}
                         onChange={(e) => setDescripcion(e.target.value)}
+                        disabled={loading}
                     />
+                    <img src={foto} alt="" className='mb-2'  disabled={loading}/>
                     {
                         Editar ? (
                             <>
-                                <button className='btn btn-warning btn-sm float-end  mb-2'>Editar</button>
-                                <button className='btn btn-dark btn-sm float-end '>Cancelar</button>
+                                <button className='btn btn-warning btn-sm float-end  mb-2' type='submit' disabled={loading}>Editar</button>
+                                <button className='btn btn-dark btn-sm float-end' onClick={() => cancelar()} disabled={loading}>Cancelar</button>
                             </>
                         ) :
-                            <>
-                                <img src={foto} alt="" className='mb-2' />
-                                <button className='btn btn-primary btn-block' type='submit'>Agregar</button>
-                            </>
+                            <button className='btn btn-primary btn-block' type='submit' disabled={loading}>Agregar</button>
+
                     }
                     {/* </div> */}
 
                 </form>
+                
             </div>
             <hr className='my-4' />
             <div>
@@ -204,8 +265,8 @@ const Formulario = () => {
                                     <td>{item.textoDescripcion}</td>
                                     <td> <img src={item.foto} alt="" className='rounded-circle m-2' height={100} width={100} /></td>
                                     <td className='col d-flex flex-column' >
-                                        <button className='btn btn-danger btn-sm float-end mb-2' onClick={() => eliminar(item.id)}>Eliminar</button>
-                                        <button className='btn btn-warning btn-sm float-end  mb-2' onClick={() => editarInf(item.id)}>Editar</button>
+                                        <button className='btn btn-danger btn-sm float-end mb-2' onClick={() => eliminar(item.id)} disabled={loading}>Eliminar</button>
+                                        <button className='btn btn-warning btn-sm float-end  mb-2' onClick={() => editarInf(item)} disabled={loading}>Editar</button>
                                     </td>
                                 </tr>
 
