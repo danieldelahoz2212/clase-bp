@@ -21,7 +21,7 @@ const Formulario = () => {
             const data = res.url;
             setFoto(data);
         } catch (error) {
-
+            console.log(error)
         }
     }
 
@@ -59,7 +59,7 @@ const Formulario = () => {
             setCorreo('')
             setDireccion('')
             setDescripcion('')
-            setFoto(getImage())
+            getImage()
         } catch (error) {
             console.log(error)
         }
@@ -158,7 +158,7 @@ const Formulario = () => {
         setDireccion('')
         setDescripcion('')
         setId('')
-        setFoto(getImage())
+        getImage()
     }
 
     return (
@@ -182,6 +182,7 @@ const Formulario = () => {
                 </h4>
                 <form onSubmit={Editar ? editarDocumento : guardar} className='d-flex justify-content-center align-self-center flex-column col-4' method='post' action='#'>
                     {/* <div className='col'> */}
+
                     <input type="text"
                         className='mb-2'
                         placeholder='Ingrese Nombre'
@@ -199,7 +200,6 @@ const Formulario = () => {
                         required=""
                         disabled={loading}
                     />
-
 
                     <input type="number"
                         className='mb-2'
