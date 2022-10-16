@@ -28,7 +28,7 @@ const Formulario = () => {
     const guardar = async (e) => {
         e.preventDefault()
         try {
-            
+
             if (nombre.length === 0) {
                 alert('El campo nombre se encuentra vacio')
                 return
@@ -61,21 +61,9 @@ const Formulario = () => {
             else if (descripcion.length === 0) {
                 alert('El campo descripcion se encuentra vacio')
                 return
-            
-            }else{
-            const data = await addDoc(collection(db, 'personas'), {
-                nombreParticipante: nombre,
-                apellidoParticipante: apellido,
-                numeroCedula: cedula,
-                numeroTelefono: telefono,
-                correoElectronico: correo,
-                direccionVivienda: direccion,
-                textoDescripcion: descripcion,
-                foto
-            })
-            setListaPersona([
-                ...listaPersona,
-                {
+
+            } else {
+                const data = await addDoc(collection(db, 'personas'), {
                     nombreParticipante: nombre,
                     apellidoParticipante: apellido,
                     numeroCedula: cedula,
@@ -83,19 +71,31 @@ const Formulario = () => {
                     correoElectronico: correo,
                     direccionVivienda: direccion,
                     textoDescripcion: descripcion,
-                    foto,
-                    id: data.id
-                }
-            ])
-            setNombre('')
-            setApellido('')
-            setCedula('')
-            setTelefono('')
-            setCorreo('')
-            setDireccion('')
-            setDescripcion('')
-            getImage()
-        }
+                    foto
+                })
+                setListaPersona([
+                    ...listaPersona,
+                    {
+                        nombreParticipante: nombre,
+                        apellidoParticipante: apellido,
+                        numeroCedula: cedula,
+                        numeroTelefono: telefono,
+                        correoElectronico: correo,
+                        direccionVivienda: direccion,
+                        textoDescripcion: descripcion,
+                        foto,
+                        id: data.id
+                    }
+                ])
+                setNombre('')
+                setApellido('')
+                setCedula('')
+                setTelefono('')
+                setCorreo('')
+                setDireccion('')
+                setDescripcion('')
+                getImage()
+            }
         } catch (error) {
             console.log(error)
         }
@@ -223,7 +223,6 @@ const Formulario = () => {
                         className='mb-2'
                         placeholder='Ingrese Nombre'
                         value={nombre}
-
                         onChange={(e) => setNombre(e.target.value)}
                         disabled={loading}
                     />
